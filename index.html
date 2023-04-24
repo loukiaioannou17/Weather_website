@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+  <link rel="stylesheet" href="style.css">
+  <script src="myscript.js" defer></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+
+</head>
+
+<body>
+  <div class="bg"></div>
+
+  <h1> Weather Forecast Search </h1>
+  <div class="container">
+    <form>
+
+      <div class="row">
+
+        <div class="col-sm-3">
+          <label for="address"> Address<span class="required">*</span></label>
+          <input type="text" class="form-control" id="address" placeholder="Enter Address" required>
+          <div id="invalid-feedback-address" class="hidden">
+            <span class=required>Please enter your address!<span>
+          </div>
+        </div>
+
+        <div class="col-sm-2">
+          <label for="region"> Region<span class="required">*</span></label>
+          <input type="text" class="form-control" id="region" placeholder="Enter region">
+          <div id="invalid-feedback-region" class="hidden">
+            <span class=required>Please enter your region!</span>
+          </div>
+        </div>
+
+        <div class="col-sm-2">
+          <label for="city"> City<span class="required">*</span></label>
+          <select id="city" class="form-control">
+            <option hidden selected> Select City</option>
+            <option> Nicosia </option>
+            <option> Larnaca </option>
+	    <option> Limassol </option>
+	    <option> Paphos </option>
+	    <option> Ammochostos </option>
+	    <option> Kerynia </option>
+          </select>
+          <div id="invalid-feedback-city" class="hidden">
+            <span class=required>Please select your city!</span>
+          </div>
+        </div>
+
+        <div class="col-sm-2">
+          <label for="inlideRadioOptions"> Degree <span class="required">*</span></label>
+          <div class="input-group-ra,0mdio col-auto">
+            <input class="form-check-input" type="radio" name="degree" id="celcius" value="celcius" checked>
+            <label class="form-check-label" for="inlineRadio1"><span>&#176;</span>C</label>
+            <input class="form-check-input" type="radio" name="degree" id="celcius" value="farenheit">
+            <label class="form-check-label" for="inlineRadio2"><span>&#176;</span>F</label>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group-btn">
+            <button id ="search" type="button" class="btn btn-primary"> <i class="fas fa-search"></i> Search</button>
+            <button id="clear" type="button" class="btn btn-danger"><i class="fas fa-ban"></i></button>
+            <button id="last" type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"><i class="fas fa-list"></i></button>
+          </div>
+       
+
+        </div>
+
+    </form>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Last 5 requests</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col"><strong>Time</strong></th>
+                <th scope="col"><strong>Address</strong></th>
+                <th scope="col"><strong>Region</strong></th>
+                <th scope="col"><strong>City</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="date1"> </td>
+                <td id="address1"></td>
+                <td id="region1"></td>
+                <td id="city1"></td>
+              </tr>
+
+              <tr>
+                <td id="date2"> </td>
+                <td id="address2"> </td>
+                <td id="region2"> </td>
+                <td id="city2"> </td>
+              </tr>
+
+		<tr>
+                <td id="date3">  </td>
+                <td id="address3"> </td>
+                <td id="region3"> </td>
+                <td id="city3"></td>
+              </tr>
+
+		<tr>
+                <td id="date4"></td>
+                <td id="address4"></td>
+                <td id="region4"> </td>
+                <td id="city4"></td>
+              </tr>
+
+		<tr>
+                <td id="date5">  </td>
+                <td id="address5"> </td>
+                <td id="region5"></td>
+                <td id="city5"> </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  
+  <section class="container-md-6 hidden" id="whole">
+    <ul class="nav nav-tabs" id="myTab">
+      <li class="active button" id="now"><a>Right Now</a></li>
+      <li class="button" id = "hours"><a>Next 24 Hours</a></li>
+    </ul>
+    <div id="right_now" class="hidden">
+      <div class="container" id='numbers_map'>
+      	<div class="container" id="information">
+      		<p id="description"> N.A.</p>
+      		<p id="current_weather">15.15 oC</p>
+      		<p><span class="low" id="temp_min">L:N.A.</span> | <span class=required id = "temp_max">H:N.A.</span></p>
+      	</div>
+      	<div class="container">
+      		<img id="icon" src="https://openweathermap.org/img/w/02d.png">
+      	</div>
+        <table class="table table-striped">
+          <tr>
+            <th scope="row">Pressure</th>
+            <td id="pressure">N.A.</td>
+          </tr>
+          <tr>
+            <th scope="row">Humidity</th>
+            <td id = "humidity">N.A.</td>
+          </tr>
+          <tr>
+            <th scope="row">Wind Speed</th>
+            <td id="wind">N.A.</td>
+          </tr>
+          <tr>
+            <th scope="row">Cloud Cover</th>
+            <td id="clouds">N.A.</td>
+          </tr>
+          <tr>
+            <th scope="row">Sunrise</th>
+            <td id="sunrise">N.A.</td>
+          </tr>
+          <tr>
+            <th scope="row">Sunset</th>
+            <td id="sunset">N.A.</td>
+          </tr>
+
+        </table>
+      </div>
+        <div id="map" class="container"> </div>
+      
+    </div>
+  </section>
+  <section id="day" class="hidden">
+    <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"><strong>Time</strong></th>
+              <th scope="col"><strong>Summary</strong></th>
+              <th scope="col"><strong>Temp</strong></th>
+              <th scope="col"><strong>Cloud Cover</strong></th>
+              <th scope="col"><strong>Details</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="time1"> N.A. </td>
+              <td> <img id="icon1" scrc=""></img> </td>
+              <td id="temp1"> N.A.</td>
+              <td id="cloud1"> N.A.</td>
+              <td id="button1"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            <tr>
+              <td id="time2"> N.A. </td>
+              <td> <img id="icon2" scrc=""></img> </td>
+              <td id="temp2"> N.A.</td>
+              <td id="cloud2"> N.A.</td>
+              <td id="button2"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            <tr>
+              <td id="time3"> N.A.</td>
+              <td> <img id="icon3" scrc=""></img> </td>
+              <td id="temp3"> N.A.</td>
+              <td id="cloud3">N.A.</td>
+              <td id="button3"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            <tr>
+              <td id="time4"> N.A. </td>
+              <td> <img id="icon4" scrc=""></img> </td>
+              <td id="temp4"> N.A.</td>
+              <td id="cloud4"> N.A.</td>
+              <td id="button4"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            <tr>
+              <td id="time5">N.A.</td>
+              <td> <img id="icon5" scrc=""></img> </td>
+              <td id="temp5"> N.A.</td>
+              <td id="cloud5"> N.A.</td>
+              <td id="button5"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            <tr>
+              <td id="time6"> N.A.</td>
+              <td> <img id="icon6" scrc=""></img> </td>
+              <td id="temp6"> N.A.</td>
+              <td id="cloud6"> N.A.</td>
+              <td id="button6"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            <tr>
+              <td id="time7"> N.A. </td>
+              <td> <img id="icon7" scrc=""></img> </td>
+              <td id="temp7"> N.A.</td>
+              <td id="cloud7"> N.A.</td>
+              <td id="button7"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            <tr>
+              <td id="time8"> N.A.</td>
+              <td> <img id="icon8" scrc=""></img> </td>
+              <td id="temp8"> N.A.</td>
+              <td id="cloud8"> N.A.</td>
+              <td id="button8"> <button type="button" class="btn btn-success" data-toggle="modal" data-target="#view-modal">View</button> </td>
+            </tr>
+
+            
+
+          
+
+          </tbody>
+        </table>
+  
+  </section>
+  <div class="modal fade" id="view-modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" id="view-modal">
+      <div class="modal-content">
+       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modal-title">Weather in</h4>
+      </div>
+      <div class="modal-body">
+        <img id=modal-image src=""></img>
+        <p id="modal-description"> N.A.</p>
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"><strong>Humidity</strong></th>
+            <th scope="col"><strong>Pressure</strong></th>
+            <th scope="col"><strong>Wind Speed</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="hum"> N.A. </td>
+            <td id="press"> N.A.</td>
+            <td id="wind-modal"> N.A.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
+

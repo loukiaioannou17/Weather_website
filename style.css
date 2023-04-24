@@ -1,0 +1,140 @@
+body,html{ height:100%}
+
+body{
+  background-image: url("https://www.cs.ucy.ac.cy/courses/EPL425/assignments/sunset.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1{
+	text-align:center;
+	margin-top:5%;
+	color:white;
+	text-shadow: 2px 2px #000000;
+}
+
+.required{
+	color:red;
+	}
+	
+.form-group-btn{
+	margin-top:10%;
+
+}
+
+table,td,tr,th{
+	text-align:center;
+	
+	
+}
+
+section:first-of-type{
+	margin-top:5%;
+}
+
+
+
+section section table button{
+	margin-top:0.5%;
+}
+
+div .container:nth-child(1)  { 
+	background-color:white;
+	width:50%;
+	float:left;
+    height: 100%;
+	padding-top:2%;
+}
+
+#icon{
+
+	float:left;
+	width:10%;
+	height:20%;
+	margin-left: 5%;
+	margin-bottom: 2%;
+	object-fit:contain;
+}
+
+#information{
+
+	margin-right:5%;
+	float:right;
+	width:50%;
+	
+}
+
+#map{ 
+
+	background-color: white;
+    float:right;
+	width:50%;
+	height: 400px;
+	padding: 2% 2% 2% 2%;
+	
+}
+
+#day{
+
+	background-color:white;
+}
+
+@media all and (max-width:960px)
+{
+    #numbers_map, #map
+    {
+        display: block; 
+        float: none; 
+        width: 100%;
+    }
+}
+
+#modal-image{
+
+	object-position:center;
+	object-fit:fill;
+	float:left;
+	margin-left:10%;
+	width:100px;
+	height:100px;
+}
+
+#modal-description{
+	float:right;
+	width:70%;
+	text-align:center;
+	margin-top: 10%;
+}
+
+p:nth-of-type(1){  font-size:100%; margin-bottom:1%;}
+p:nth-of-type(2){  font-size:300%; margin-bottom:0%;}
+
+
+.low{color:blue;}
+
+div form {
+	background-color: rgba(255,255,255,0.5);
+	
+	padding-top:2%;
+	padding-bottom:2%;
+	padding-left:1%;
+	padding-right:1%;
+	
+}
+
+th{
+font-weight: lighter;
+}
+
+
+#myTab li a { background-color:#0079fe;color:white; }
+#myTab li.active a {background-color:white;color:#0079fe; }
+
+
+
